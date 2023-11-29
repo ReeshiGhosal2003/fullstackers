@@ -7,7 +7,11 @@ Candidate::Candidate() {
 	LName ="";
 	TotalVotes = 0;
 	BallotList = BallotLinkedList();
+	//DistrictIDs = {0};
 	//^ fills in the values of candidate with blank or null values
+};
+
+Candidate::~Candidate() {
 };
 
 Candidate::Candidate(Candidate& candidate) {
@@ -16,6 +20,7 @@ Candidate::Candidate(Candidate& candidate) {
 	LName = candidate.GetLName();
 	TotalVotes = candidate.GetTotalVotes();
 	BallotList = candidate.GetBallotList();
+	//DistrictIDs = { 0 };
 	//^ copies the values currently stored in the candidate class
 };
 
@@ -25,6 +30,7 @@ Candidate::Candidate(string first, string last, double ID) {
 	LName = last;
 	TotalVotes = 0;
 	BallotList = BallotLinkedList();
+	//DistrictIDs = { 0 };
 	//^ allows manual input of values for Candidate (not manually input through keyboard, instead values are passed when the constructor is called.
 	// see Tabulation.cpp for an example.)
 };
@@ -61,18 +67,32 @@ void Candidate::Print() {
 	cout << "First Name: " << FName << std::endl;
 	cout << "Last Name: " << LName << std::endl;
 	cout << "Total Votes: " << TotalVotes << std::endl;
+	cout << "This Candidate is a part of these districts: ";
+	/*if (DistrictIDs.size() != 0)
+	{
+		for (int i = 0; i < DistrictIDs.size(); i++)
+		{
+			cout << DistrictIDs[i] << ", ";
+		}
+	}*/
+	cout << endl;
+	cout << "This candidate holds these ballots: " << endl;
+	BallotLinkedList list = BallotList.Copy();
+
+	while (!list.Empty()) {
+
+		list.ReturnFrontItem().Print();
+
+		list.RemoveFront();
+
+	}
+
 	cout << "----------------" << endl;
 	//^ displays the Candidate's ID, first name, and last name in order
 	//perhaps add statements to display other information, like district
 };
 
-void Candidate::CheckForDuplicates(BallotLinkedList BallotList) {
-	//under construction
-	//have an outer for loop that goes through the full list of ballots, stopping
-	//at each one, and in another loop going through the rest of the list comparing
-	//the current ballot in the outer loop with the rest of them.
-	//(also, what should this method do anything if a duplicate is found?)
-};
+
 
 void Candidate::CountVotes() {
 	double i = 0; //creates a local variable to keep track of the total votes counted in this method
@@ -85,12 +105,14 @@ void Candidate::CountVotes() {
 	
 };
 
-void Candidate::AddBallot(Ballot ballot) {
+void Candidate::AddBallot(Ballot &ballot) 
+{
+	//ballot.Print();
 	BallotList.AddItemToFront(ballot);
 	//^ adds a new ballot to the front of the list, using the values stored in the ballot parameter passed to the method
 };
 
-void Candidate::RemoveBallot(Ballot ballot) {
+void Candidate::RemoveBallot(Ballot &ballot) {
 	BallotList.RemoveItem(ballot);
 	//^ removes the ballot stored in the list if its values correlate to the values passed in the ballot parameter
 	//may want to include an exception/catch algorithm that will display an error when the ballot passed does not exist in the list

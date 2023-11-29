@@ -37,10 +37,13 @@ public:
 	//assign that voted ballot to the candidate once candidate is found
 	void AssignBallotToCandidate(double CandidateID, Ballot& ballot, string CandidateType);
 
+	void CountAllVotes();
+
 	//overall print function / prints candidate information and their votes
 	void PresidentPrint();
 	void SenatorPrint();
 	void GovernorPrint();
+	void BallotListPrint();
 
 };
 
